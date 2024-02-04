@@ -1,0 +1,10 @@
+name: VeinMining
+version: '${project.version}'
+main: it.hns.veinmining.VeinMining
+api-version: '1.20'
+commands:
+  vein:
+        description: VeinMining command
+        usage: /veinmining
+        aliases: [vm]
+        permission-message: You don't have permission to use this command

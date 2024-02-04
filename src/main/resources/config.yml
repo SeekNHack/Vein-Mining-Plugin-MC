@@ -1,0 +1,21 @@
+drop-experience: true # Drop experience
+radius: 3 # The radius
+# Blocks that are vein mineable
+blocks:
+  - COAL_ORE
+  - DIAMOND_ORE
+  - EMERALD_ORE
+  - GOLD_ORE
+  - IRON_ORE
+  - COPPER_ORE
+  - LAPIS_ORE
+  - NETHER_QUARTZ_ORE
+  - REDSTONE_ORE
+  - ANCIENT_DEBRIS
+  - NETHER_GOLD_ORE
+  - NETHERITE_BLOCK
+  - NETHERITE_ORE
+  - STONE
+  - GRANITE
+  - ANDESITE
+
