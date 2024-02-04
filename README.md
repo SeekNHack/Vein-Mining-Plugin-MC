@@ -1,4 +1,4 @@
-# Plugin Release: Vein Mining Plugin
+# Vein Mining Plugin
 
 **Description:**
 The Vein Mining Plugin is an expansion for Minecraft that allows players to quickly extract large quantities of blocks of the same type using the "vein mining" ability.
