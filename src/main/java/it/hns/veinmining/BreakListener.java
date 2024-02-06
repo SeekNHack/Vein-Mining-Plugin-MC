@@ -2,6 +2,7 @@ package it.hns.veinmining;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,22 +23,6 @@ public class BreakListener implements Listener {
     public BreakListener(VeinMining instance) {
         plugin = instance;
     }
-    @EventHandler
-    public boolean onBlockBreak(BlockBreakEvent event) {
-        // Prendo il player che ha rotto il blocco
-        Player player = event.getPlayer();
-        if (!player.hasPermission("vein.mining")){
-            plugin.getPlayers().remove(player);
-        }
-        // Controllo se il player ha il permesso e se ha un piccone in mano e se il blocco è nel config
-        if (plugin.getPlayers().contains(player) && player.getInventory().getItemInMainHand().getType().toString().contains("PICKAXE") && plugin.getConfig().getStringList("blocks").contains(event.getBlock().getType().toString())){
-            int radius = plugin.getConfig().getInt("radius");
-            Block block = event.getBlock();
-            veinmining(player, block, radius );
-        }
-
-        return true;
-    }
 
     private List<Block> getAdjacentBlocks(Block block) {
         List<Block> adjacentBlocks = new ArrayList<>();
@@ -49,6 +34,33 @@ public class BreakListener implements Listener {
             }
         }
         return adjacentBlocks;
+    }
+
+    @EventHandler
+    public boolean onBlockBreak(BlockBreakEvent event) {
+        // Prendo il player che ha rotto il blocco
+        Player player = event.getPlayer();
+        if (!player.hasPermission("vein.mining")) {
+            plugin.getPlayers().remove(player);
+        }
+        // Controllo se il player ha il permesso
+        if (plugin.getPlayers().contains(player))
+            // Verifico per ogni arma in getWeapons se il nome dell'item è contenuto nel nome dell'item in mano
+            for (String weapon : plugin.getConfigManager().getWeapons()) {
+                FileConfiguration weaponConfig = plugin.getConfigManager().getWeaponConfig(weapon);
+                if (weapon.equals("hand")) {
+                    weapon = "air";
+                }
+                if (player.getInventory().getItemInMainHand().getType().toString().toLowerCase().contains(weapon)) {
+                    int radius = weaponConfig.getInt("radius");
+                    // Verifico che il blocco sia dentro la lista dei blocchi
+                    if (weaponConfig.getStringList("blocks").contains(event.getBlock().getType().toString())) {
+                        Block block = event.getBlock();
+                        veinmining(player, block, radius, weaponConfig);
+                    }
+                }
+            }
+        return true;
     }
     // Algoritmo che trova tutti i blocchi adiacenti con raggio depth. Se il blocco non è adiacente non lo considero
     private ArrayList<Block> getAdjacentBlocks(Block block, int radius) {
@@ -75,13 +87,13 @@ public class BreakListener implements Listener {
     }
 
 
-    private void veinmining(Player player, Block block, int depth) {
+    private void veinmining(Player player, Block block, int depth, FileConfiguration weaponConfig) {
         ArrayList<Block> blocks = getAdjacentBlocks(block, depth);
 
         for (Block b : blocks) {
-            if (b.getType().toString().contains("ORE") && plugin.getConfig().getBoolean("drop-experience")) {
-                player.getWorld().spawn(block.getLocation(), ExperienceOrb.class).setExperience(5);
-            }
+            // Droppo la quantità di esperienza specificata nella config
+            if (weaponConfig.getInt("experience") > 0)
+                player.getWorld().spawn(block.getLocation(), ExperienceOrb.class).setExperience(weaponConfig.getInt("experience"));
             // Se l'item ha silk touch droppo il blocco intero
             if (player.getInventory().getItemInMainHand().containsEnchantment(org.bukkit.enchantments.Enchantment.SILK_TOUCH)) {
                 b.breakNaturally(player.getInventory().getItemInMainHand());

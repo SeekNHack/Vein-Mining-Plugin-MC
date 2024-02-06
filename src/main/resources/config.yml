@@ -1,21 +1,7 @@
-drop-experience: true # Drop experience
-radius: 3 # The radius
-# Blocks that are vein mineable
-blocks:
-  - COAL_ORE
-  - DIAMOND_ORE
-  - EMERALD_ORE
-  - GOLD_ORE
-  - IRON_ORE
-  - COPPER_ORE
-  - LAPIS_ORE
-  - NETHER_QUARTZ_ORE
-  - REDSTONE_ORE
-  - ANCIENT_DEBRIS
-  - NETHER_GOLD_ORE
-  - NETHERITE_BLOCK
-  - NETHERITE_ORE
-  - STONE
-  - GRANITE
-  - ANDESITE
-
+# Add or remove items from the list to change the items that are allowed to be used in the game. Please create a file with the name of the weapon
+# example: axe.yml, pickaxe.yml, shovel.yml, hand.yml
+weapons:
+  - hand
+  - pickaxe
+  - shovel
+  - axe

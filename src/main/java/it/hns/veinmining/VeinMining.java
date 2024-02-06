@@ -1,24 +1,32 @@
 package it.hns.veinmining;
 
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public final class VeinMining extends JavaPlugin {
     private ArrayList<Player> players;
-    private FileConfiguration config;
+    private ConfigManager configManager;
+
     @Override
     public void onEnable() {
-        FileConfiguration config = this.getConfig();
-        this.saveDefaultConfig();
+        // Create the config
+        try {
+            this.configManager = new ConfigManager(this);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         // Register the listener
         getServer().getPluginManager().registerEvents(new BreakListener(this), this);
         // Register the command
         new VeinCommand(this);
         players = new ArrayList<Player>();
+        // Prendo la lista dei weapons da config
     }
     public ArrayList<Player> getPlayers() {
         return players;
@@ -26,5 +34,8 @@ public final class VeinMining extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+    public ConfigManager getConfigManager() {
+        return configManager;
     }
 }

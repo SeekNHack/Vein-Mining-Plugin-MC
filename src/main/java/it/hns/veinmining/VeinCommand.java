@@ -17,6 +17,12 @@ public class VeinCommand implements CommandExecutor {
     }
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        // Se commandSender ha il permesso vein.reload e il secondo argomento è reload ricarico la config
+        if (strings.length == 1 && strings[0].equals("reload") && commandSender.hasPermission("vein.reload")) {
+            plugin.getConfigManager().reloadConfig();
+            commandSender.sendMessage("§aConfig reloaded");
+            return true;
+        }
         ArrayList<Player> players = plugin.getPlayers();
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
