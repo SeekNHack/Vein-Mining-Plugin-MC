@@ -57,6 +57,7 @@ public class BreakListener implements Listener {
                     if (weaponConfig.getStringList("blocks").contains(event.getBlock().getType().toString())) {
                         Block block = event.getBlock();
                         veinmining(player, block, radius, weaponConfig);
+                        return true;
                     }
                 }
             }
