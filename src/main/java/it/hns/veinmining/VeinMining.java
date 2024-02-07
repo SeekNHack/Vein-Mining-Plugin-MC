@@ -26,7 +26,9 @@ public final class VeinMining extends JavaPlugin {
         // Register the command
         new VeinCommand(this);
         players = new ArrayList<Player>();
-        // Prendo la lista dei weapons da config
+        // init the tab completer
+        getCommand("vein").setTabCompleter(new PluginTabCompleter());
+
     }
     public ArrayList<Player> getPlayers() {
         return players;
