@@ -119,12 +119,12 @@ public class BreakListener implements Listener {
                 } else {
                     amount = 1;
                 }
-
-                // Danneggio l'item se la durabilità non è a 0
+                // Se l'item è danneggiabile e non è al massimo di danni, danneggialo altrimenti non fare nulla
                 ItemStack item = player.getInventory().getItemInMainHand();
-                if (item.getItemMeta() instanceof Damageable) {
+                if (item.getItemMeta() instanceof Damageable && item.getType().getMaxDurability() > 0) {
                     Damageable damageable = (Damageable) item.getItemMeta();
                     if (damageable.getDamage() < item.getType().getMaxDurability()) {
+                        plugin.getLogger().info("Danneggio l'item");
                         damageable.setDamage(damageable.getDamage() + amount);
                         item.setItemMeta(damageable);
                     } else {
