@@ -1,7 +1,4 @@
 package it.hns.veinmining;
-
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,6 +25,8 @@ public final class VeinMining extends JavaPlugin {
         players = new ArrayList<Player>();
         // Avvio il tab completer
         getCommand("vein").setTabCompleter(new PluginTabCompleter());
+        // Se è presente bStats lo avvio
+        Metrics metrics = new Metrics(this, 20943);
     }
     public ArrayList<Player> getPlayers() {
         return players;

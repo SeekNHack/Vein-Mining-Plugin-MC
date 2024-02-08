@@ -124,7 +124,6 @@ public class BreakListener implements Listener {
                 if (item.getItemMeta() instanceof Damageable && item.getType().getMaxDurability() > 0) {
                     Damageable damageable = (Damageable) item.getItemMeta();
                     if (damageable.getDamage() < item.getType().getMaxDurability()) {
-                        plugin.getLogger().info("Danneggio l'item");
                         damageable.setDamage(damageable.getDamage() + amount);
                         item.setItemMeta(damageable);
                     } else {
